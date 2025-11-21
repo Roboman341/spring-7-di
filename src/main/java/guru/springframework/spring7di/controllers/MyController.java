@@ -1,7 +1,7 @@
 package guru.springframework.spring7di.controllers;
 
-import guru.springframework.spring6di.services.GreetingService;
-import guru.springframework.spring6di.services.GreetingServiceImpl;
+import guru.springframework.spring7di.services.GreetingService;
+import guru.springframework.spring7di.services.GreetingServiceImpl;
 import org.springframework.stereotype.Controller;
 
 /**

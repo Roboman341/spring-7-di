@@ -1,4 +1,4 @@
-package guru.springframework.spring6di.services;
+package guru.springframework.spring7di.services;
 
 /**
  * Created by jt, Spring Framework Guru.

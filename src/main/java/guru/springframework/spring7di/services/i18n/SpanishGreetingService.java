@@ -1,4 +1,4 @@
-package guru.springframework.spring6di.services.i18n;
+package guru.springframework.spring7di.services.i18n;
 
 import guru.springframework.spring7di.services.GreetingService;
 import org.springframework.context.annotation.Profile;
@@ -7,11 +7,11 @@ import org.springframework.stereotype.Service;
 /**
  * Created by jt, Spring Framework Guru.
  */
-@Profile("EN")
+@Profile("ES")
 @Service("i18NService")
-public class EnglishGreetingService implements GreetingService {
+public class SpanishGreetingService implements GreetingService {
     @Override
     public String sayGreeting() {
-        return "Hello World - EN";
+        return "Hola Mundo - ES";
     }
 }

@@ -1,4 +1,4 @@
-package guru.springframework.spring6di;
+package guru.springframework.spring7di;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;

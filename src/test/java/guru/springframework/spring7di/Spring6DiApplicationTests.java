@@ -1,4 +1,4 @@
-package guru.springframework.spring6di;
+package guru.springframework.spring7di;
 
 import guru.springframework.spring6di.controllers.MyController;
 import org.junit.jupiter.api.Test;

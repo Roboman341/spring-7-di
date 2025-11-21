@@ -1,4 +1,4 @@
-package guru.springframework.spring6di.services.i18n;
+package guru.springframework.spring7di.services.i18n;
 
 import guru.springframework.spring7di.services.GreetingService;
 import org.springframework.context.annotation.Profile;

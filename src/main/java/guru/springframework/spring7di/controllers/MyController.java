@@ -1,4 +1,4 @@
-package guru.springframework.spring6di.controllers;
+package guru.springframework.spring7di.controllers;
 
 import guru.springframework.spring6di.services.GreetingService;
 import guru.springframework.spring6di.services.GreetingServiceImpl;

@@ -80,6 +80,141 @@ You're now using the Spring-managed bean to call its method.
 
 This simple example is the foundation for understanding Spring's dependency injection - in more complex applications, beans would have dependencies on other beans, and Spring would automatically wire them together!
 
+## Understanding Dependency Injection in Java
+
+Dependency Injection (DI) is a design pattern where objects receive their dependencies from external sources rather than creating them internally. Instead of a class creating the objects it needs, those objects are "injected" into it.
+
+### Without Dependency Injection
+```java
+public class MyController {
+    private MyService service;
+
+    public MyController() {
+        this.service = new MyService();  // Controller creates its own dependency
+    }
+}
+```
+
+**Problems:**
+- Tight coupling - `MyController` is hardcoded to use `MyService`
+- Hard to test - Can't easily swap `MyService` with a mock
+- Hard to change - If you want a different implementation, you must modify the constructor
+
+### With Dependency Injection
+```java
+public class MyController {
+    private MyService service;
+
+    public MyController(MyService service) {
+        this.service = service;  // Dependency is injected from outside
+    }
+}
+```
+
+**Benefits:**
+- Loose coupling - `MyController` doesn't know how `MyService` is created
+- Easy to test - You can inject a mock `MyService` in tests
+- Flexible - You can inject different implementations without changing `MyController`
+
+## Three Types of Dependency Injection in Java
+
+### 1. Constructor Injection (Recommended)
+```java
+@Controller
+public class MyController {
+    private final MyService service;
+
+    @Autowired  // Optional in Spring if there's only one constructor
+    public MyController(MyService service) {
+        this.service = service;
+    }
+}
+```
+
+**Advantages:**
+- Dependencies are required and immutable (using `final`)
+- Objects are fully initialized when created
+- Easy to test - just pass dependencies to constructor
+- Makes dependencies explicit and visible
+- **This is the recommended approach in Spring**
+
+### 2. Setter Injection
+```java
+@Controller
+public class MyController {
+    private MyService service;
+
+    @Autowired
+    public void setService(MyService service) {
+        this.service = service;
+    }
+}
+```
+
+**Advantages:**
+- Allows optional dependencies
+- Can change dependencies after object creation
+- Useful for optional or reconfigurable dependencies
+
+**Disadvantages:**
+- Objects can be in partially initialized state
+- Dependencies can be changed, leading to potential issues
+
+### 3. Field Injection
+```java
+@Controller
+public class MyController {
+    @Autowired
+    private MyService service;
+}
+```
+
+**Advantages:**
+- Most concise syntax
+- Less boilerplate code
+
+**Disadvantages:**
+- Cannot use `final` fields
+- Hard to test - requires reflection or Spring context
+- Hides dependencies - not obvious what the class needs
+- **Not recommended for production code**
+
+### Example: How Spring Does Dependency Injection
+
+Here's what it would look like if you added a service to your current project:
+
+```java
+// Service layer
+@Service
+public class GreetingService {
+    public String getGreeting() {
+        return "Hello from Service!";
+    }
+}
+
+// Controller with dependency
+@Controller
+public class MyController {
+    private final GreetingService greetingService;
+
+    public MyController(GreetingService greetingService) {
+        this.greetingService = greetingService;  // Spring injects this
+    }
+
+    public String sayHello() {
+        return greetingService.getGreeting();
+    }
+}
+```
+
+**When Spring creates the application context:**
+1. It finds `GreetingService` (marked with `@Service`) and creates a bean
+2. It finds `MyController` (marked with `@Controller`)
+3. It sees `MyController` needs a `GreetingService` in its constructor
+4. It automatically injects the `GreetingService` bean into `MyController`
+
+**This is the "magic" of Spring** - you never write `new GreetingService()` or `new MyController()`. Spring manages all of this for you through its IoC container!
+
 ## The Same Works in Tests!
 
 The Spring context works exactly the same way in tests. See `Spring6DiApplicationTests.java` for examples:

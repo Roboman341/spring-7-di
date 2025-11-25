@@ -80,6 +80,41 @@ You're now using the Spring-managed bean to call its method.
 
 This simple example is the foundation for understanding Spring's dependency injection - in more complex applications, beans would have dependencies on other beans, and Spring would automatically wire them together!
 
+## The Same Works in Tests!
+
+The Spring context works exactly the same way in tests. See `Spring6DiApplicationTests.java` for examples:
+
+### Approach 1: Using @Autowired (Spring6DiApplicationTests.java:12-16)
+```java
+@Autowired
+ApplicationContext applicationContext;
+
+@Autowired
+MyController myController;
+```
+
+With `@SpringBootTest`, Spring creates a test application context and can inject beans directly into your test class using `@Autowired`. This is the most common approach in Spring tests.
+
+### Approach 2: Using getBean() (Spring6DiApplicationTests.java:24-25)
+```java
+@Test
+void testGetControllerFromCtx() {
+    MyController myController = applicationContext.getBean(MyController.class);
+    System.out.println(myController.sayHello());
+}
+```
+
+Just like in the main application, you can also retrieve beans from the context using `getBean()` in tests.
+
+### Key Testing Annotations
+
+**@SpringBootTest** (Spring6DiApplicationTests.java:9)
+- Loads the full Spring application context for integration testing
+- Performs component scanning just like the main application
+- Creates all beans defined in your application
+
+Both approaches work with the same Spring context - the difference is just how you access the beans!
+
 ## Requirements
 
 - Java 25 or higher

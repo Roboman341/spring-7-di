@@ -263,3 +263,49 @@ mvn spring-boot:run
 ```
 
 Or run the `Spring7DiApplication` class directly from your IDE.
+
+
+
+PaymentService is the interface, enabling flexibility.
+The Order class has a private final paymentService property.
+The dependency is injected via the constructor, ensuring it cannot be changed after instantiation.
+This setup makes the code easier to test and maintain, adhering to best practices.
+
+```java
+// Define an interface for the dependency
+public interface PaymentService {
+void processPayment();
+}
+
+// Implement the interface
+public class CreditCardPaymentService implements PaymentService {
+@Override
+public void processPayment() {
+System.out.println("Processing credit card payment");
+}
+}
+
+// Main class with dependency injection
+public class Order {
+private final PaymentService paymentService;
+
+    // Constructor injection
+    public Order(PaymentService paymentService) {
+        this.paymentService = paymentService;
+    }
+
+    public void completeOrder() {
+        paymentService.processPayment();
+        System.out.println("Order completed");
+    }
+}
+
+// Usage
+public class Main {
+public static void main(String[] args) {
+PaymentService paymentService = new CreditCardPaymentService();
+Order order = new Order(paymentService);
+order.completeOrder();
+}
+}
+```
